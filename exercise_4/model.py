@@ -9,23 +9,34 @@ class Move:
         self.coordinates = coordinates
         self.player = player
 
+    def __repr__(self):
+        return f"{self.coordinates, self.player}"
+
 
 class Board:
-    """Represents state of the board"""
-
     current_state: np.ndarray
 
     def get_possible_moves(self, player: str) -> list[Move]:
+        possible_moves: list[Move] = []
+        for i in range(len(self.current_state)):
+            for j in range(len(self.current_state[i])):
+                if self.current_state[i][j] == 0:
+                    if player == 'V':
+                        if (
+                                i + 1 < len(self.current_state)  # check if end (bottom) of matrix reached
+                                and self.current_state[i + 1][j] == 0
+                        ):
+                            possible_moves.append(Move([(i, j), (i + 1, j)], 'V'))
+                    elif player == 'H':
+                        if (
+                                j + 1 < len(self.current_state) # check if end (right end) of matrix reached
+                                and self.current_state[i][j + 1] == 0
+                        ):
+                            possible_moves.append(Move([(i, j), (i, j + 1)], 'H'))
 
-        if player == 'V':
-            pass
-        elif player == 'H':
-            pass
-        else:
-            raise KeyError('Illegal player.')
+        return possible_moves
 
     def make_move(self, move: Move):
-        """Takes next move as input and performs the move."""
         if move.player == 'V':
             for position in move.coordinates:
                 self.current_state[position] = 1
