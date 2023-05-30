@@ -22,6 +22,3 @@ possible_moves_for_V = board.get_possible_moves('V')
 print(possible_moves_for_V)
 print(len(possible_moves_for_V))
 
-# Iterate over board --> Use in get_possible_moves
-for i in np.nditer(board.current_state):
-    print(f"i = {i}")
